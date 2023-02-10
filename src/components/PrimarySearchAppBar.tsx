@@ -1,9 +1,9 @@
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SearchIcon from '@mui/icons-material/Search';
+import VideoCall from '@mui/icons-material/VideoCall';
 import { alpha, colors, styled } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
@@ -17,28 +17,40 @@ import * as React from 'react';
 import YTLogo from './YTLogo';
 
 const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  display: 'flex',
-  border: `1px solid ${colors.grey[400]}`,
-  borderRadius: 40,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
+  'position': 'relative',
+  'display': 'flex',
+  'borderRadius': 40,
+  'border': `1px solid ${colors.grey[400]}`,
+  'backgroundColor': alpha(theme.palette.common.white, 0.15),
+  'marginRight': theme.spacing(2),
+  'marginLeft': 0,
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(3),
     width: 'auto',
   },
+  '&:before': {
+    display: 'block',
+    width: '50%',
+    height: '100%',
+    backgroundColor: colors.blue[400],
+  },
+}));
+
+const SearchInputWrapper = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  borderRadius: '40px 0 0 40px',
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
   pointerEvents: 'none',
   display: 'flex',
-  borderLeft: `1px solid ${colors.grey[400]}`,
   alignItems: 'center',
+  justifyContent: 'center',
   borderRadius: '0 40px 40px 0',
   backgroundColor: colors.grey[200],
-  justifyContent: 'center',
+  borderLeft: `1px solid ${colors.grey[400]}`,
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -54,6 +66,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const [focusInput, setFocusInput] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -119,11 +132,9 @@ export default function PrimarySearchAppBar() {
     >
       <MenuItem>
         <IconButton size='large' aria-label='show 4 new mails' color='inherit'>
-          <Badge badgeContent={4} color='error'>
-            <MailIcon />
-          </Badge>
+          <VideoCall />
         </IconButton>
-        <p>Messages</p>
+        <p>Create</p>
       </MenuItem>
       <MenuItem>
         <IconButton
@@ -178,10 +189,24 @@ export default function PrimarySearchAppBar() {
           />
           <Box sx={{ flexGrow: 1 }} />
           <Search>
-            <StyledInputBase
-              placeholder='Search'
-              inputProps={{ 'aria-label': 'search' }}
-            />
+            <SearchInputWrapper
+              sx={{
+                border: `1px solid ${
+                  focusInput ? colors.blue[800] : colors.common.white
+                }`,
+              }}
+            >
+              <StyledInputBase
+                onFocus={() => {
+                  setFocusInput(true);
+                }}
+                onBlur={() => {
+                  setFocusInput(false);
+                }}
+                placeholder='Search'
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </SearchInputWrapper>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -193,8 +218,8 @@ export default function PrimarySearchAppBar() {
               aria-label='show 4 new mails'
               color='inherit'
             >
-              <Badge badgeContent={4} color='error'>
-                <MailIcon />
+              <Badge color='error'>
+                <VideoCall />
               </Badge>
             </IconButton>
             <IconButton
