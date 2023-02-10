@@ -1,4 +1,5 @@
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import Close from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -36,21 +37,30 @@ const Search = styled('div')(({ theme }) => ({
   },
 }));
 
-const SearchInputWrapper = styled('div')(({ theme }) => ({
+const SearchInputBox = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'row',
   borderRadius: '40px 0 0 40px',
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled(IconButton)(({ theme }) => ({
   padding: theme.spacing(0, 2),
-  pointerEvents: 'none',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: '0 40px 40px 0',
   backgroundColor: colors.grey[200],
   borderLeft: `1px solid ${colors.grey[400]}`,
+}));
+
+const CloseInputWrapper = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  right: theme.spacing(8),
+  top: 0,
+  bottom: 0,
+  display: 'flex',
+  alignItems: 'center',
+  cursor: 'pointer',
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -67,6 +77,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar() {
   const [focusInput, setFocusInput] = React.useState(false);
+  const [searchInput, setSearchInput] = React.useState('');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -189,7 +200,7 @@ export default function PrimarySearchAppBar() {
           />
           <Box sx={{ flexGrow: 1 }} />
           <Search>
-            <SearchInputWrapper
+            <SearchInputBox
               sx={{
                 border: `1px solid ${
                   focusInput ? colors.blue[800] : colors.common.white
@@ -197,16 +208,33 @@ export default function PrimarySearchAppBar() {
               }}
             >
               <StyledInputBase
+                value={searchInput}
                 onFocus={() => {
                   setFocusInput(true);
                 }}
                 onBlur={() => {
                   setFocusInput(false);
                 }}
+                onChange={(e) => {
+                  setSearchInput(e.target.value);
+                }}
                 placeholder='Search'
                 inputProps={{ 'aria-label': 'search' }}
               />
-            </SearchInputWrapper>
+              {searchInput && (
+                <CloseInputWrapper
+                  onClick={() => {
+                    setSearchInput('');
+                  }}
+                >
+                  <Close
+                    sx={{
+                      color: `${colors.grey[600]}`,
+                    }}
+                  />
+                </CloseInputWrapper>
+              )}
+            </SearchInputBox>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
