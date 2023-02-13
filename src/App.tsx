@@ -8,7 +8,11 @@ function App() {
     <Stack>
       <PrimarySearchAppBar />
       <Grid container justifyContent='space-around'>
-        <YTPlayer />
+        <Grid item xs={1}></Grid>
+        <Grid item xs={8}>
+          <YTPlayer />
+        </Grid>
+        <Grid item xs={3}></Grid>
       </Grid>
     </Stack>
   );
