@@ -10,7 +10,7 @@ const StyledButtonBase = styled(ButtonBase)(({ theme }) => ({
   justifyContent: 'space-between',
   gap: '8px',
   alignItems: 'center',
-  backgroundColor: theme.palette.grey[300],
+  backgroundColor: theme.palette.grey[200],
   borderRadius: '18px',
   height: '36px',
   padding: '0 10px',

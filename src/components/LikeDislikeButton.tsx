@@ -14,7 +14,7 @@ function LikeDislikeButton() {
   return (
     <Stack
       sx={{
-        backgroundColor: theme.palette.grey[300],
+        backgroundColor: theme.palette.grey[200],
         borderRadius: '18px',
         height: '36px',
         overflow: 'hidden',

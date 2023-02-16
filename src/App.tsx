@@ -3,10 +3,23 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import IosShareIcon from '@mui/icons-material/IosShare';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import { Grid, Stack, styled, Typography, useTheme } from '@mui/material';
+import SortIcon from '@mui/icons-material/Sort';
+import {
+  Box,
+  ButtonBase,
+  Collapse,
+  Grid,
+  Paper,
+  Stack,
+  styled,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import * as React from 'react';
+import { useState } from 'react';
 import ChannelAvatar from './components/ChannelAvatar';
 import ChipButton from './components/ChipButton';
+import Comment from './components/Comment';
 import LikeDislikeButton from './components/LikeDislikeButton';
 import PrimarySearchAppBar from './components/PrimarySearchAppBar';
 import YTPlayer from './components/YTPlayer';
@@ -18,6 +31,12 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
 
 function App() {
   const theme = useTheme();
+  const [showMore, setShowMore] = useState(false);
+
+  const handleShowMore = () => {
+    setShowMore(!showMore);
+  };
+
   return (
     <Stack>
       <PrimarySearchAppBar />
@@ -77,6 +96,98 @@ function App() {
                   <MoreHorizIcon />
                 </ChipButton>
               </Stack>
+            </Stack>
+            <Box>
+              <Paper
+                elevation={0}
+                sx={{
+                  backgroundColor: theme.palette.grey[200],
+                  borderRadius: '12px',
+                  padding: theme.spacing(2),
+                }}
+              >
+                <Typography variant='body2'>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Incidunt id voluptas quae, maxime maiores aperiam eum,
+                  temporibus repellendus non dolor praesentium ea at expedita
+                  quod reprehenderit, blanditiis architecto. Ipsum, eius.
+                </Typography>
+                <Collapse in={showMore} unmountOnExit timeout='auto'>
+                  <Typography variant='body2'>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Incidunt id voluptas quae, maxime maiores aperiam eum,
+                    temporibus repellendus non dolor praesentium ea at expedita
+                    quod reprehenderit, blanditiis architecto. Ipsum, eius.
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                    Voluptatibus omnis, veniam at qui quasi, ipsam numquam
+                    voluptatum nihil nisi error odit soluta tempore non placeat
+                    suscipit exercitationem excepturi minima mollitia. Lorem
+                    ipsum dolor, sit amet consectetur adipisicing elit. Cumque
+                    illum vitae nesciunt aliquid maxime, reiciendis, animi,
+                    explicabo velit itaque magnam provident reprehenderit aut
+                    quos eos. Vero ratione harum nesciunt corporis. Lorem ipsum
+                    dolor sit amet consectetur, adipisicing elit. Voluptatem
+                    optio assumenda laborum repudiandae rem tempore aut
+                    consequatur tenetur minus voluptatum, placeat hic laudantium
+                    perspiciatis quis repellendus saepe dignissimos eius
+                    deserunt.
+                  </Typography>
+                </Collapse>
+                <ButtonBase onClick={handleShowMore}>
+                  <Typography
+                    variant='button'
+                    sx={{
+                      fontWeight: 'bold',
+                      fontSize: 12,
+                    }}
+                  >
+                    show more
+                  </Typography>
+                </ButtonBase>
+              </Paper>
+            </Box>
+            <Stack>
+              <Stack
+                direction='row'
+                spacing={theme.spacing(3)}
+                alignItems='center'
+              >
+                <Typography variant='body2'>1,708 Comments</Typography>
+                <ButtonBase>
+                  <Stack
+                    direction='row'
+                    spacing={theme.spacing(1)}
+                    alignItems='center'
+                  >
+                    <SortIcon />
+                    <Typography variant='body2'>Sort by</Typography>
+                  </Stack>
+                </ButtonBase>
+              </Stack>
+            </Stack>
+            <Stack spacing={theme.spacing(3)}>
+              <Comment
+                avatarLetter='F'
+                userName='Funky child'
+                lastUpdate='2 weeks ago'
+                body='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab fugiat debitis deleniti aperiam assumenda, fuga numquam minima cumque doloremque, ullam nihil voluptates quo enim ipsum mollitia quisquam modi. Consectetur, nostrum'
+                likeNb='1.8K'
+                edited={true}
+              />
+              <Comment
+                avatarLetter='W'
+                userName='Will Ipad'
+                lastUpdate='8 days ago'
+                body='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab fugiat debitis deleniti aperiam assumenda, fuga numquam minima cumque doloremque, ullam nihil voluptates quo enim ipsum mollitia quisquam modi. Consectetur, nostrum'
+                likeNb='556'
+              />
+              <Comment
+                avatarLetter='F'
+                userName='Leonel Kalupeteka'
+                lastUpdate='2 weeks ago'
+                body='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab fugiat debitis deleniti aperiam assumenda, fuga numquam minima cumque doloremque, ullam nihil voluptates quo enim ipsum mollitia quisquam modi. Consectetur, nostrum'
+                likeNb='1.3K'
+              />
             </Stack>
           </Stack>
         </Grid>
