@@ -4,6 +4,7 @@ import { Avatar, Stack, Typography, useTheme } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { StackProps } from '@mui/material/Stack';
 import * as React from 'react';
+import { useMemo } from 'react';
 
 export type CommentProps = StackProps & {
   avatarLetter: string;
@@ -24,7 +25,9 @@ function Comment({
   ...props
 }: CommentProps) {
   const theme = useTheme();
-  const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+  const randomColor = useMemo(() => {
+    return Math.floor(Math.random() * 16777215).toString(16);
+  }, []);
 
   return (
     <Stack {...props} direction='row' spacing={theme.spacing(2)}>

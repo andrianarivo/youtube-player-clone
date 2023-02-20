@@ -16,12 +16,13 @@ import {
   useTheme,
 } from '@mui/material';
 import * as React from 'react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import ChannelAvatar from './components/ChannelAvatar';
 import ChipButton from './components/ChipButton';
 import Comment from './components/Comment';
 import LikeDislikeButton from './components/LikeDislikeButton';
 import PrimarySearchAppBar from './components/PrimarySearchAppBar';
+import VideoThumbnail from './components/VideoThumbnail';
 import YTPlayer from './components/YTPlayer';
 
 const StyledTypography = styled(Typography)(({ theme }) => ({
@@ -29,7 +30,17 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
   fontWeight: 'bold',
 }));
 
+const ScrollView = styled(Box)(({ theme }) => ({
+  'overflowX': 'scroll',
+  'scrollBehavior': 'smooth',
+  'WebkitOverflowScrolling': 'touch',
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
+}));
+
 function App() {
+  const boxRef = useRef<HTMLDivElement>(null);
   const theme = useTheme();
   const [showMore, setShowMore] = useState(false);
 
@@ -44,8 +55,9 @@ function App() {
         container
         justifyContent='center'
         sx={{
-          marginTop: theme.spacing(3),
+          marginTop: theme.spacing(1),
         }}
+        spacing={theme.spacing(3)}
       >
         <Grid item xs={7}>
           <Stack spacing={theme.spacing(1)}>
@@ -191,7 +203,41 @@ function App() {
             </Stack>
           </Stack>
         </Grid>
-        <Grid item xs={3}></Grid>
+        <Grid item xs={3}>
+          <ScrollView
+            display='flex'
+            onClick={() => {
+              if (boxRef.current) {
+                console.log('test');
+                boxRef.current.scrollLeft += 50;
+              }
+            }}
+            ref={boxRef}
+          >
+            <Box>1234567898</Box>
+            <Box>1234567898</Box>
+            <Box>1234567898</Box>
+            <Box>1234567898</Box>
+            <Box>1234567898</Box>
+            <Box>1234567898</Box>
+            <Box>1234567898</Box>
+            <Box>1234567898</Box>
+            <Box>1234567898</Box>
+            <Box>1234567898</Box>
+            <Box>1234567898</Box>
+            <Box>1234567898</Box>
+          </ScrollView>
+          <Stack spacing={theme.spacing(2)}>
+            <VideoThumbnail
+              title='Kubernetes: The Documentary [PART 2]'
+              duration='31:18'
+              channel='Honeypot'
+              nbViews='155K'
+              creationDate='1 year'
+              thumbnail='https://i.ytimg.com/vi/318elIq37PE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCBqX5AAku5dhagHnEZrKJcWfYlsA'
+            />
+          </Stack>
+        </Grid>
       </Grid>
     </Stack>
   );
