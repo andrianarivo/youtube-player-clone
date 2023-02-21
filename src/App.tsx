@@ -1,6 +1,8 @@
 import DownloadIcon from '@mui/icons-material/Download';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import IosShareIcon from '@mui/icons-material/IosShare';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import SortIcon from '@mui/icons-material/Sort';
@@ -19,6 +21,7 @@ import * as React from 'react';
 import { useRef, useState } from 'react';
 import ChannelAvatar from './components/ChannelAvatar';
 import ChipButton from './components/ChipButton';
+import ChipFilter from './components/ChipFilter';
 import Comment from './components/Comment';
 import LikeDislikeButton from './components/LikeDislikeButton';
 import PrimarySearchAppBar from './components/PrimarySearchAppBar';
@@ -31,7 +34,10 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
 }));
 
 const ScrollView = styled(Box)(({ theme }) => ({
+  'display': 'inline-block',
+  'whiteSpace': 'nowrap',
   'overflowX': 'scroll',
+  'width': '100%',
   'scrollBehavior': 'smooth',
   'WebkitOverflowScrolling': 'touch',
   '&::-webkit-scrollbar': {
@@ -39,10 +45,17 @@ const ScrollView = styled(Box)(({ theme }) => ({
   },
 }));
 
+const RoundButtonBase = styled(ButtonBase)(({ theme }) => ({
+  padding: '4px',
+  borderRadius: '50%',
+}));
+
 function App() {
-  const boxRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const theme = useTheme();
   const [showMore, setShowMore] = useState(false);
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(true);
 
   const handleShowMore = () => {
     setShowMore(!showMore);
@@ -204,38 +217,134 @@ function App() {
           </Stack>
         </Grid>
         <Grid item xs={3}>
-          <ScrollView
-            display='flex'
-            onClick={() => {
-              if (boxRef.current) {
-                console.log('test');
-                boxRef.current.scrollLeft += 50;
-              }
-            }}
-            ref={boxRef}
-          >
-            <Box>1234567898</Box>
-            <Box>1234567898</Box>
-            <Box>1234567898</Box>
-            <Box>1234567898</Box>
-            <Box>1234567898</Box>
-            <Box>1234567898</Box>
-            <Box>1234567898</Box>
-            <Box>1234567898</Box>
-            <Box>1234567898</Box>
-            <Box>1234567898</Box>
-            <Box>1234567898</Box>
-            <Box>1234567898</Box>
-          </ScrollView>
-          <Stack spacing={theme.spacing(2)}>
-            <VideoThumbnail
-              title='Kubernetes: The Documentary [PART 2]'
-              duration='31:18'
-              channel='Honeypot'
-              nbViews='155K'
-              creationDate='1 year'
-              thumbnail='https://i.ytimg.com/vi/318elIq37PE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCBqX5AAku5dhagHnEZrKJcWfYlsA'
-            />
+          <Stack spacing={theme.spacing(3)}>
+            <Box
+              sx={{
+                position: 'relative',
+              }}
+            >
+              <ScrollView ref={scrollRef}>
+                <ChipFilter title='All' />
+                <ChipFilter title='Denzel Washington' />
+                <ChipFilter title='Motivation' />
+                <ChipFilter title='Listenable' />
+                <ChipFilter title='From ABOVE INSPIRATION' />
+                <ChipFilter title='Recently uplodaed' />
+                <ChipFilter title='Watched' />
+              </ScrollView>
+              {showLeftArrow && (
+                <Stack
+                  direction='row'
+                  sx={{
+                    '&::after': {
+                      content: '""',
+                      display: 'block',
+                      alignSelf: 'stretch',
+                      width: 20,
+                      backgroundColor: 'transparent',
+                      backgroundImage:
+                        'linear-gradient(to right, rgba(255, 255, 255, 1) 40%, rgba(255, 255, 255, 0))',
+                    },
+                    'position': 'absolute',
+                    'top': 0,
+                    'left': 0,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      backgroundColor: '#fff',
+                    }}
+                  >
+                    <RoundButtonBase
+                      onClick={() => {
+                        if (scrollRef.current) {
+                          scrollRef.current.scrollLeft -= 50;
+                          if (scrollRef.current.scrollLeft === 0) {
+                            setShowLeftArrow(false);
+                          } else {
+                            setShowRightArrow(true);
+                            setShowLeftArrow(true);
+                          }
+                        }
+                      }}
+                    >
+                      <KeyboardArrowLeftIcon />
+                    </RoundButtonBase>
+                  </Box>
+                </Stack>
+              )}
+              {showRightArrow && (
+                <Stack
+                  direction='row'
+                  sx={{
+                    '&::before': {
+                      content: '""',
+                      display: 'block',
+                      alignSelf: 'stretch',
+                      width: 20,
+                      backgroundColor: 'transparent',
+                      backgroundImage:
+                        'linear-gradient(to right, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 1))',
+                    },
+                    'position': 'absolute',
+                    'top': 0,
+                    'right': 0,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      backgroundColor: '#fff',
+                    }}
+                  >
+                    <RoundButtonBase
+                      onClick={() => {
+                        if (scrollRef.current) {
+                          scrollRef.current.scrollLeft += 50;
+                          const maxScrollWidth =
+                            scrollRef.current.scrollWidth -
+                            scrollRef.current.clientWidth;
+                          if (scrollRef.current.scrollLeft === maxScrollWidth) {
+                            setShowRightArrow(false);
+                          } else {
+                            setShowRightArrow(true);
+                            setShowLeftArrow(true);
+                          }
+                        }
+                      }}
+                    >
+                      <KeyboardArrowRightIcon />
+                    </RoundButtonBase>
+                  </Box>
+                </Stack>
+              )}
+            </Box>
+
+            <Stack spacing={theme.spacing(2)}>
+              <VideoThumbnail
+                title='Kubernetes: The Documentary [PART 2]'
+                duration='31:18'
+                channel='Honeypot'
+                nbViews='155K'
+                creationDate='1 year'
+                thumbnail='https://i.ytimg.com/vi/318elIq37PE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCBqX5AAku5dhagHnEZrKJcWfYlsA'
+              />
+              <VideoThumbnail
+                title='I built the same app 10 times // Which JS Framework is best?'
+                duration='21:58'
+                channel='Fireship'
+                nbViews='1.8M'
+                creationDate='1 year'
+                thumbnail='https://i.ytimg.com/vi/cuHDQhDhvPE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCHwnoH9-IXMclSes9kpPgekA4xSg'
+              />
+              <VideoThumbnail
+                title='Version 3.5 Special Program｜Genshin Impact'
+                duration='36:01'
+                channel='Genshin Impact'
+                nbViews='1.2M'
+                creationDate='2 days'
+                thumbnail='https://i.ytimg.com/vi/BtEh1Aa0yn4/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBuXl_gtRWApto7t6cviLd0nOb_5w'
+              />
+            </Stack>
           </Stack>
         </Grid>
       </Grid>

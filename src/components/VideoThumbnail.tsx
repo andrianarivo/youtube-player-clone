@@ -2,7 +2,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
   Box,
   ButtonBase,
-  IconButton,
   Stack,
   StackProps,
   styled,
@@ -53,6 +52,9 @@ function VideoThumbnail({
       direction='row'
       spacing={theme.spacing(2)}
       alignItems='flex-start'
+      sx={{
+        cursor: 'pointer',
+      }}
     >
       <Box
         sx={{
