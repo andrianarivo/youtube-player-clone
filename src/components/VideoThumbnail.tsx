@@ -62,6 +62,7 @@ function VideoThumbnail({
           display: 'inline-block',
           width: '168px',
           height: '94px',
+          flex: 1,
         }}
       >
         <Box
@@ -95,20 +96,33 @@ function VideoThumbnail({
           </Typography>
         </Box>
       </Box>
-      <Stack>
+      <Stack
+        sx={{
+          flex: 1,
+        }}
+      >
         <Typography
           variant='body2'
           sx={{
             maxWidth: '202px',
             fontWeight: 'bold',
+            display: '-webkit-box',
+            WebkitBoxOrient: 'vertical',
+            WebkitLineClamp: 2,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
           }}
         >
           {title}
         </Typography>
         <Typography variant='caption'>{channel}</Typography>
-        <Stack direction='row'>
-          <Typography variant='caption'>{nbViews} views</Typography>
-          <Typography variant='caption'>• {creationDate} ago</Typography>
+        <Stack direction='row' justifyContent='flex-start'>
+          <Typography noWrap variant='caption'>
+            {nbViews} views
+          </Typography>
+          <Typography noWrap variant='caption'>
+            • {creationDate} ago
+          </Typography>
         </Stack>
       </Stack>
       <StyledButtonBase
